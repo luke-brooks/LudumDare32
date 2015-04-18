@@ -52,8 +52,11 @@ fn main() {
     let mut sprite = Sprite::from_texture(tex.clone());
     //set sprite position to center screen
     sprite.set_position(width as f64 / 2.0, height as f64 / 2.0);
+    //sprite.set_color(0.0,0.0,1.0);
     //add the sprite to the scene, assign id to the sprite.
     let id = scene.add_child(sprite);
+    scene.add_child(sprite3);
+
 
     // Run a sequence of animations.
     let seq = Sequence(vec![
@@ -88,9 +91,9 @@ fn main() {
         //get the rendering event and draw the scene to the screen
         if let Some(args) = e.render_args() {
             use graphics::*;
-            gl.draw([0, 0, args.width as i32, args.height as i32], |c, gl| {
+            gl.draw(args.viewport(), |c, gl| {
                 graphics::clear([1.0, 1.0, 1.0, 1.0], gl);
-                scene.draw(c.transform, gl);
+                scene.draw_tinted(c.transform, gl, [0.0,0.5,1.0]);
             });
         }
         //get mouse press to pause animation
